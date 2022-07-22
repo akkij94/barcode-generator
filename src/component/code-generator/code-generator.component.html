@@ -1,0 +1,91 @@
+<div>
+  <div style="text-align:center">
+    <div class="tab">
+      <button class="btn btn-info" (click)="tabName = 'Barcode'">
+        Barcode
+      </button>
+      <button class="btn btn-info" (click)="tabName = 'QRcode'">QRcode</button>
+      <ngx-print-element #element="element">
+        <button (click)="printCall()" class="btn btn-info m-1">
+          1# Print table
+        </button>
+      </ngx-print-element>
+    </div>
+    <div [id]="getId()">
+      <ngx-barcode6
+        *ngIf="tabName == 'Barcode'"
+        [bc-format]="selectedBarcodeObj.value"
+        [bc-width]="selectedWidth"
+        [bc-height]="selectedHeight"
+        [bc-font-size]="selectedFontSize"
+        [bc-value]="userInput"
+        [bc-display-value]="true"
+      >
+      </ngx-barcode6>
+      <qrcode
+        *ngIf="tabName == 'QRcode'"
+        [qrdata]="userInput"
+        [errorCorrectionLevel]="'M'"
+        [width]="selectedWidth"
+        [scale]="selectedFontSize"
+        [margin]="selectedMargins"
+        [colorDark]="colorDark"
+      ></qrcode>
+    </div>
+    <p>Example : {{ selectedBarcodeObj.example }}</p>
+  </div>
+
+  <div class="optionblock">
+    <div class="selection">
+      <label for="barcode">Barcode Data:</label>
+      <input
+        class="form-control"
+        id="userInput"
+        name="userInput"
+        type="text"
+        [(ngModel)]="userInput"
+        value=""
+        placeholder="Enter Barcode"
+        autofocus=""
+      />
+    </div>
+
+    <div class="selection">
+      <label for="barcode"
+        >Barcode format:
+        <select name="barcode" id="barcode" [(ngModel)]="selectedBarcodeObj">
+          <option [ngValue]="i" *ngFor="let i of barcodeObjs">
+            {{ i.name }}
+          </option>
+        </select>
+      </label>
+    </div>
+    <div class="selection">
+      <label for="width"
+        >Line width:
+        <select name="width" id="width" [(ngModel)]="selectedWidth">
+          <option [ngValue]="j" *ngFor="let j of widths">{{ j }}</option>
+        </select>
+      </label>
+    </div>
+    <div class="selection">
+      <label for="heigth"
+        >Heigth:
+        <select name="heigth" id="heigth" [(ngModel)]="selectedHeight">
+          <option [ngValue]="i" *ngFor="let i of heights">{{ i }}</option>
+        </select>
+      </label>
+    </div>
+    <div class="selection">
+      <label for="fontSize"
+        >Font Size:
+        <select name="fontSize" id="fontSize" [(ngModel)]="selectedFontSize">
+          <option [ngValue]="i" *ngFor="let i of fontSizes">{{ i }}</option>
+        </select>
+      </label>
+    </div>
+    <div style="text-align:center">
+      {{ selectedBarcodeObj | json }}
+    </div>
+  </div>
+</div>
